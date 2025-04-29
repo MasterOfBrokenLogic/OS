@@ -15,10 +15,10 @@ The OS provides several key services, including:
 - **Security and Protection**: Ensuring data security and process isolation.
 
 ### 4. System Call
-A **System Call** is a mechanism that allows user-level processes to request services from the OS kernel. System calls provide the interface between a running program and the operating system, enabling functions like file manipulation, process control, and communication.
+A system call is a request made by a program to the operating system for performing tasks that the program can't do directly, like accessing hardware, managing files, or controlling processes. It allows programs to interact with the OS safely and efficiently, ensuring secure access to system resources. Examples include operations like opening a file (open()), reading data (read()), or creating a new process (fork()).
 
 ### 5. System Call Interface
-The **System Call Interface (SCI)** is a set of functions that serve as a bridge between user programs and the operating system. It enables programs to execute operations such as reading/writing files, creating processes, and managing memory by invoking kernel functions.
+The **System Call Interface (SCI)** is the layer that allows user programs to interact with the operating system's kernel through system calls. It provides a way for programs to request services like file handling, memory management, and process control, while ensuring secure and controlled access to system resources.
 
 ### 6. Types of System Calls
 System calls can be categorized into:
