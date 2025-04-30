@@ -54,7 +54,7 @@ When a process is ready for execution, it is moved from the **Ready Queue** to t
 
 # 6. **Schedulers**
 
-Schedulers are responsible for managing process execution in a computer system. There are three main types:
+A scheduler in an operating system is a component responsible for deciding which process or thread should be executed by the CPU at any given time. There are three main types of schedulers: 
 - **Long-term scheduler**: Decides which processes are admitted into the system.
 - **Short-term scheduler**: Decides which process from the ready queue should be executed next.
 - **Medium-term scheduler**: Manages processes that need to be swapped in or out of memory.
@@ -65,32 +65,24 @@ Schedulers ensure that the system efficiently handles process execution based on
 
 # 7. **CPU Input-Output Burst Cycle**
 
-The **CPU Input-Output Burst Cycle** describes the alternating periods of **CPU bursts** (when the CPU is actively processing instructions) and **I/O bursts** (when the process waits for input/output operations). During a CPU burst, a process uses CPU resources to perform calculations or execute code. In an I/O burst, the process waits for external devices, such as a disk or network, to complete data transfer. The scheduling algorithms try to optimize the balance between CPU bursts and I/O bursts to achieve efficient process execution.
+The CPU Input-Output Burst Cycle refers to the alternating pattern of CPU burst (when a process is using the CPU to perform computations) and I/O burst (when the process is waiting for I/O operations, such as reading or writing data). Each process alternates between these two types of bursts: a CPU burst involves the process executing instructions using the CPU, while an I/O burst occurs when the process is blocked, waiting for input/output operations to complete. The length and frequency of CPU and I/O bursts help determine the efficiency of scheduling algorithms, and the CPU burst time is typically shorter than the I/O burst time in many cases, especially for interactive processes.
 
 ---
 
 # 8. **Context Switch**
 
-A **context switch** occurs when the operating system switches the CPU from executing one process to another. During a context switch, the state of the current process (stored in the **PCB**) is saved, and the state of the new process is loaded into the CPU. Context switching enables **multi-tasking** but introduces some overhead, as saving and loading process states consumes time and resources.
-
+A context switch occurs when the operating system’s scheduler switches the CPU from one process to another. During this process, the state (or context) of the currently running process is saved, including its program counter, registers, and other critical data, so that it can resume execution later. The state of the new process is then loaded, allowing it to take control of the CPU. Context switching is essential for multitasking, as it enables the operating system to manage multiple processes and allocate CPU time efficiently. Although context switching allows for efficient multitasking, it comes with overhead, as the process of saving and loading context consumes time and resources.
 ---
 
 # 9. **Dispatcher**
 
-The **dispatcher** is responsible for giving control of the CPU to the process selected by the **short-term scheduler**. It performs the final step in the scheduling process, transferring control to the running process. The dispatcher performs tasks such as:
-- Switching to the process's context.
-- Switching the CPU to user mode.
-- Jumping to the correct location in the process's code.
+The dispatcher is a component of the operating system responsible for giving control of the CPU to a selected process after the scheduler has chosen it. Once the short-term scheduler (CPU scheduler) selects a process from the ready queue, the dispatcher performs the task of loading the process’s context (such as the program counter and register values) and transferring control to it. The dispatcher is crucial in ensuring that a process starts its execution on the CPU and is responsible for the actual context switching between processes. The efficiency of the dispatcher directly affects the performance of context switching and overall system responsiveness.
 
 ---
 
 # 10. **CPU Scheduling**
 
-**CPU scheduling** is the process of determining which process should be assigned CPU time next. It aims to optimize system performance by minimizing process waiting time and maximizing CPU utilization. Common CPU scheduling algorithms include:
-- **FCFS (First-Come, First-Served)**
-- **SJF (Shortest Job First)**
-- **Round Robin (RR)**
-- **Priority Scheduling**
+CPU Scheduling is the method by which the operating system decides which process or thread gets to use the CPU at any given time. Since multiple processes may be ready to execute simultaneously, the scheduler must determine the order in which these processes should run to achieve efficiency in terms of CPU utilization, throughput, waiting time, and response time. Various CPU scheduling algorithms like First Come First Serve (FCFS), Shortest Job First (SJF), Round Robin (RR), and Priority Scheduling are used, each having its strengths and weaknesses depending on the type of workload and system requirements. The goal is to ensure fairness, maximize system throughput, and minimize process waiting time while avoiding issues like starvation.
 
 ---
 
@@ -120,7 +112,7 @@ The **protection of virtual memory** ensures that processes cannot access memory
 
 # 15. **Virtual Memory**
 
-**Virtual memory** is a memory management technique that gives an application the illusion that it has access to more memory than is physically available. It uses techniques like **paging** and **segmentation** to store parts of a program on **disk** when they are not needed in **RAM**. The **MMU** and **operating system** work together to swap data between **RAM** and **disk** seamlessly, enabling programs to run even when there is not enough physical memory.
+Virtual Memory is a memory management technique that creates the illusion of a larger amount of RAM than physically available by using disk space to simulate additional memory. It allows processes to access more memory than the system’s physical RAM by swapping data between the RAM and disk storage (usually called the page file or swap space). Virtual memory enables multiprogramming by giving each process the illusion that it has its own contiguous block of memory, even though physical memory is fragmented. This helps improve system performance and multitasking by allowing programs to run even when the total memory required exceeds the available physical RAM.
 
 ---
 
@@ -132,34 +124,116 @@ A **page fault** occurs when a process tries to access a page that is not curren
 
 # 17. **Steps for Handling a Page Fault**
 
-When a **page fault** occurs, the following steps are taken:
-1. The **MMU** detects the page fault.
-2. The operating system checks the **page table** to confirm that the access is valid.
-3. If the page is valid, it finds a **free frame** in **RAM** or evicts a page using a page replacement algorithm.
-4. The page is loaded from **disk** into **RAM**.
-5. The **page table** is updated with the new physical location.
-6. The process resumes execution with the page now in memory.
+A page fault occurs when a process attempts to access a page that is not currently in physical memory (RAM). This happens in systems using virtual memory, where only a portion of the program is loaded into RAM at any given time. When a page fault happens, the operating system must fetch the missing page from disk (usually from the page file or swap space) and load it into RAM. If there is no free space in RAM, the OS may need to evict another page, possibly causing another page fault. Although page faults are normal in systems using virtual memory, excessive page faults can slow down the system, a situation known as thrashing.
 
 ---
 
 # 18. **Page Replacement**
 
-**Page replacement** is a technique used when there is no free **frame** in **RAM** to load a new page. The operating system selects an existing page to evict from **RAM**, allowing the new page to be loaded. Common page replacement algorithms include:
-- **FIFO (First In, First Out)**
-- **LRU (Least Recently Used)**
-- **Optimal**
+Page Replacement is a memory management technique used when a process needs to access a page that is not currently in physical memory (RAM), and there are no free frames available to load the required page. In such cases, the operating system must decide which existing page in memory to swap out (remove) to make room for the new page. This decision is made using a page replacement algorithm, such as FIFO (First-In-First-Out), LRU (Least Recently Used), or Optimal, each with different strategies for selecting which page to evict. The goal is to minimize page faults and maximize system performance by making the best decision on which page to replace, reducing the overhead of frequent disk accesses.
 
 ---
 
 # 19. **FIFO, Optimal, LRU Algorithm with Example, Advantages, Disadvantages**
 
-### FIFO (First In, First Out)
-**FIFO** replaces the oldest page in **RAM** when a new page needs to be loaded.
+## 1. FIFO (First-In-First-Out) Algorithm
 
-**Example**: If pages 1, 2, and 3 are in memory, and page 4 is required, FIFO replaces page 1.
+### Explanation:
+In FIFO, the operating system keeps track of the order in which pages are brought into memory. When a new page needs to be loaded and there is no free space, the page that has been in memory the longest is replaced (i.e., the page that came in first will be evicted first).
 
-**Advantages**: Simple to implement.
-**Disadvantages**: Can cause **Belady’s anomaly**, where adding more memory causes more page faults.
+### Example:
+For 3 frames and the following reference string:  
+`1, 2, 3, 4, 1, 2, 5`
+
+Steps (FIFO):
+- **1** is loaded into frame 1.
+- **2** is loaded into frame 2.
+- **3** is loaded into frame 3.
+- **4** replaces **1** (since **1** was the first in).
+- **1** replaces **2**.
+- **2** replaces **3**.
+- **5** replaces **4**.
+
+**Page Faults** = 6 (out of 7 references).
+
+### Advantages:
+- Simple to implement.
+- Fairly easy to understand and manage.
+
+### Disadvantages:
+- Does not consider how often or how recently a page is accessed.
+- **Belady’s Anomaly**: Can lead to more page faults when more frames are added.
+
+---
+
+## 2. Optimal Page Replacement Algorithm
+
+### Explanation:
+The Optimal algorithm replaces the page that will not be used for the longest period of time in the future. It aims to minimize page faults by making the best possible decision for each replacement. This algorithm is optimal in terms of performance but not practical because it requires knowledge of future page references, which is typically impossible.
+
+### Example:
+For 3 frames and the same reference string:  
+`1, 2, 3, 4, 1, 2, 5`
+
+Steps (Optimal):
+- **1** is loaded into frame 1.
+- **2** is loaded into frame 2.
+- **3** is loaded into frame 3.
+- **4** replaces **1** (because **1** is not used for the longest time).
+- **1** replaces **2**.
+- **2** replaces **3**.
+- **5** replaces **4**.
+
+**Page Faults** = 5 (out of 7 references).
+
+### Advantages:
+- Minimum page faults (optimal).
+- Provides the best performance.
+
+### Disadvantages:
+- Difficult to implement because future page references are not known.
+- Inefficient in real-time systems where future data is unknown.
+
+---
+
+## 3. LRU (Least Recently Used) Algorithm
+
+### Explanation:
+The LRU algorithm replaces the page that has not been used for the longest time. It assumes that pages that have been used recently are likely to be used again in the near future, while pages that haven’t been used for a long time are less likely to be accessed soon.
+
+### Example:
+For 3 frames and the reference string:  
+`1, 2, 3, 4, 1, 2, 5`
+
+Steps (LRU):
+- **1** is loaded into frame 1.
+- **2** is loaded into frame 2.
+- **3** is loaded into frame 3.
+- **4** replaces **1** (since **1** is the least recently used).
+- **1** replaces **2**.
+- **2** replaces **3**.
+- **5** replaces **4**.
+
+**Page Faults** = 6 (out of 7 references).
+
+### Advantages:
+- Considers recent usage, leading to better performance than FIFO.
+- Easier to implement using counters or stacks.
+
+### Disadvantages:
+- Requires extra space and computation to track the order of page usage.
+- May still lead to performance issues if page references are irregular.
+
+---
+
+## Comparison of Algorithms:
+
+| **Algorithm**    | **Example (Page Faults)** | **Advantages**                                      | **Disadvantages**                                   |
+|------------------|---------------------------|-----------------------------------------------------|-----------------------------------------------------|
+| **FIFO**         | 6 (out of 7 references)   | Simple to implement, fair                         | Can lead to more page faults (Belady’s Anomaly), not optimal |
+| **Optimal**      | 5 (out of 7 references)   | Minimum page faults, optimal performance           | Impossible to implement in practice, needs future knowledge |
+| **LRU**          | 6 (out of 7 references)   | Considers recent usage, better performance than FIFO | Requires extra memory and tracking overhead, may still have issues with irregular access patterns |
+
 
 ---
 
@@ -185,13 +259,54 @@ When a **page fault** occurs, the following steps are taken:
 
 # 20. **SRTF (Shortest Remaining Time First)**
 
-**SRTF** is a preemptive scheduling algorithm that selects the process with the shortest remaining execution time. If a new process arrives with a shorter remaining time than the current process, the CPU will preempt the current process and execute the new one.
+# Shortest Remaining Time First (SRTF) Algorithm
+
+## Explanation:
+The **Shortest Remaining Time First (SRTF)** algorithm is a preemptive version of the **Shortest Job First (SJF)** scheduling algorithm. In SRTF, the process with the shortest remaining burst time is given the CPU next. If a new process arrives with a burst time shorter than the remaining time of the currently running process, the running process is preempted, and the new process is scheduled. This ensures that the process with the least remaining work gets executed first, aiming to minimize overall waiting time.
+
+## Example:
+Consider the following processes with their arrival times and burst times:
+
+| Process | Arrival Time | Burst Time |
+|---------|--------------|------------|
+| P1      | 0            | 8          |
+| P2      | 1            | 4          |
+| P3      | 2            | 9          |
+| P4      | 3            | 5          |
+
+At time 0, **P1** starts running. At time 1, **P2** arrives, and since **P2** has a shorter burst time than **P1**, **P1** is preempted, and **P2** starts running. This process continues, with the shortest remaining burst time always being scheduled next.
+
+**SRTF Schedule**:  
+P1 → P2 → P1 → P4 → P3
+
+## Advantages:
+- Minimizes average waiting time by giving priority to shorter jobs.
+- Reduces the turnaround time compared to non-preemptive algorithms like FCFS and SJF.
+
+## Disadvantages:
+- Requires frequent context switching, which increases overhead.
+- Not practical for long-running processes or in systems with many short processes arriving in bursts.
+- Can lead to **starvation**, where long processes may never get the CPU time they need if shorter processes keep arriving.
 
 ---
 
 # 21. **Thrashing**
 
-**Thrashing** occurs when the system spends more time swapping pages in and out of **RAM** than executing processes. This happens when there is insufficient physical memory, and the operating system constantly swaps data between **disk** and **RAM**, resulting in a severe decrease in performance. **Thrashing** can be mitigated by increasing physical memory or reducing the number of active processes.
+# Thrashing
+
+## Explanation:
+**Thrashing** occurs when a system spends more time swapping data between **RAM** and **disk storage** (paging) than executing processes. It happens when there is insufficient physical memory (RAM) to handle the demands of running processes, causing the system to constantly swap pages in and out of memory. As a result, the system's performance dramatically deteriorates, with a significant decrease in responsiveness and efficiency. Thrashing is often caused by excessive paging or by a process that requires more memory than is physically available, leading to an overwhelming amount of page faults. It can be resolved by **increasing RAM**, **optimizing processes**, or **adjusting the system's page replacement algorithms** to reduce the rate of page faults.
+
+## Causes:
+- Running too many processes that require more memory than is available.
+- High paging activity caused by inadequate memory allocation.
+
+## Solutions:
+- Increase the physical memory (RAM).
+- Use **better page replacement algorithms** like **LRU**.
+- Reduce the number of processes running concurrently.
+
+---
 
 # 22. Paging Hardware
 
