@@ -72,6 +72,7 @@ The CPU Input-Output Burst Cycle refers to the alternating pattern of CPU burst 
 # 8. **Context Switch**
 
 A context switch occurs when the operating system’s scheduler switches the CPU from one process to another. During this process, the state (or context) of the currently running process is saved, including its program counter, registers, and other critical data, so that it can resume execution later. The state of the new process is then loaded, allowing it to take control of the CPU. Context switching is essential for multitasking, as it enables the operating system to manage multiple processes and allocate CPU time efficiently. Although context switching allows for efficient multitasking, it comes with overhead, as the process of saving and loading context consumes time and resources.
+
 ---
 
 # 9. **Dispatcher**
