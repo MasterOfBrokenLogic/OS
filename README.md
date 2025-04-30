@@ -290,24 +290,6 @@ P1 → P2 → P1 → P4 → P3
 
 ---
 
-# 21. **Thrashing**
-
-# Thrashing
-
-## Explanation:
-**Thrashing** occurs when a system spends more time swapping data between **RAM** and **disk storage** (paging) than executing processes. It happens when there is insufficient physical memory (RAM) to handle the demands of running processes, causing the system to constantly swap pages in and out of memory. As a result, the system's performance dramatically deteriorates, with a significant decrease in responsiveness and efficiency. Thrashing is often caused by excessive paging or by a process that requires more memory than is physically available, leading to an overwhelming amount of page faults. It can be resolved by **increasing RAM**, **optimizing processes**, or **adjusting the system's page replacement algorithms** to reduce the rate of page faults.
-
-## Causes:
-- Running too many processes that require more memory than is available.
-- High paging activity caused by inadequate memory allocation.
-
-## Solutions:
-- Increase the physical memory (RAM).
-- Use **better page replacement algorithms** like **LRU**.
-- Reduce the number of processes running concurrently.
-
----
-
 # 22. Paging Hardware
 
 **Paging hardware** is a system that supports the translation of **virtual memory addresses** to **physical memory addresses**. It works by dividing both the physical memory and the logical memory into **fixed-size blocks** called **pages** and **frames**, respectively. The **Memory Management Unit (MMU)** uses a **page table** to map virtual addresses to physical addresses. This allows processes to use more memory than physically available in the system, as pages can be swapped in and out of **RAM**. Paging hardware makes the implementation of **virtual memory** efficient and helps in isolating processes from each other.
@@ -406,15 +388,3 @@ The **LRU** algorithm replaces the page that has not been used for the longest p
 - Requires tracking of page usage over time, which adds overhead.
 
 ---
-
-# 31. SRTF (Shortest Remaining Time First)
-
-**SRTF (Shortest Remaining Time First)** is a **preemptive CPU scheduling** algorithm. It selects the process with the **shortest remaining execution time** to run next. If a new process arrives with a shorter remaining time than the currently running process, the CPU will preempt the current process and start the new one. This helps to minimize the **average waiting time** in a system.
-
-**Example**: If process A requires 10 ms, and process B requires 5 ms, process B will be executed first.
-
----
-
-# 32. Thrashing
-
-**Thrashing** occurs when the operating system spends more time swapping pages in and out of **RAM** than executing processes. This happens when there is not enough **physical memory** to hold all the active pages, causing the system to continually swap pages between **RAM** and **disk**. As a result, the CPU becomes inefficient, and the system performance drastically decreases. **Thrashing** can be mitigated by **increasing physical memory**, reducing the number of active processes, or using more efficient page replacement algorithms.
